@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rifa Multifandom - Rifas Kpop AR</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* Fondo animado multifandom */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,105,180,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 10%, rgba(147,51,234,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(59,130,246,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 70%, rgba(234,179,8,0.07) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+* { position: relative; z-index: 1; }
+
+header {
+  text-align: center;
+  padding: 2rem 1rem 1.2rem;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 1.2rem;
+}
+
+.logo-circle {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #cc0000;
+  border: 3px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #000; }
+
+.logo-lines {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #cc0000;
+  border: 3px solid #fff;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+}
+
+.logo-line { width: 22px; height: 3px; background: #000; border-radius: 1px; }
+
+.logo-i {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: #cc0000;
+  border: 3px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.logo-i-inner { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.logo-i-bar { width: 18px; height: 3px; background: #000; border-radius: 1px; }
+.logo-i-stem { width: 3px; height: 10px; background: #000; border-radius: 1px; }
+
+.titulo-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+header h1 {
+  font-size: 2.4rem;
+  font-style: italic;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff69b4 0%, #a855f7 35%, #3b82f6 65%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+}
+
+header .subtitulo {
+  font-size: 0.85rem;
+  color: #888;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+/* Badges de grupos */
+.grupos-badges {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.grupo-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.badge-bts { background: rgba(180,130,0,0.2); border: 1px solid rgba(234,179,8,0.5); color: #fbbf24; }
+.badge-skz { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); color: #60a5fa; }
+.badge-bp { background: rgba(255,105,180,0.15); border: 1px solid rgba(255,105,180,0.4); color: #f472b6; }
+.badge-shinee { background: rgba(147,51,234,0.15); border: 1px solid rgba(147,51,234,0.4); color: #c084fc; }
+
+.precios-info {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.precio-badge {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.82rem;
+  color: #ccc;
+}
+
+/* Sección premios */
+.premios-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 1rem 0;
+}
+
+.premios-titulo {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+}
+
+.premios-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .premios-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.premio-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.2s;
+}
+
+.premio-card:hover {
+  background: rgba(255,255,255,0.07);
+  transform: translateY(-2px);
+}
+
+.premio-emoji { font-size: 1.4rem; margin-bottom: 4px; }
+
+.premio-artista {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.premio-album {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.premio-versiones {
+  font-size: 0.58rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+.card-bts { border-color: rgba(234,179,8,0.2); }
+.card-bts .premio-artista { color: #fbbf24; }
+.card-skz { border-color: rgba(59,130,246,0.2); }
+.card-skz .premio-artista { color: #60a5fa; }
+.card-bp { border-color: rgba(255,105,180,0.2); }
+.card-bp .premio-artista { color: #f472b6; }
+.card-shinee { border-color: rgba(147,51,234,0.2); }
+.card-shinee .premio-artista { color: #c084fc; }
+
+.premio-nota {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #888;
+  padding: 0.5rem 1rem 1rem;
+  font-style: italic;
+}
+
+/* Leyenda */
+.leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 0.7rem 1rem;
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.leyenda-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.78rem; color: #888;
+}
+
+.corazon-leyenda { font-size: 18px; line-height: 1; }
+
+/* Grilla */
+.grilla-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 0.5rem;
+}
+
+.grilla-titulo {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.grilla-titulo h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff69b4, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: italic;
+}
+
+.grilla-titulo p { font-size: 0.75rem; color: #666; letter-spacing: 1px; margin-top: 2px; }
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+
+.num-btn {
+  aspect-ratio: 1;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s;
+}
+
+.num-btn:hover:not(:disabled) { transform: scale(1.15); }
+.num-btn:active:not(:disabled) { transform: scale(0.95); }
+.num-btn:disabled { cursor: not-allowed; }
+
+.corazon-svg { width: 100%; height: 100%; display: block; }
+
+.num-label {
+  position: absolute;
+  font-size: clamp(7px, 1.8vw, 11px);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  pointer-events: none;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) translateY(5%);
+}
+
+.num-label.oscuro { color: #111; text-shadow: none; }
+
+/* Loader */
+.loader {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid #1e1e1e;
+  border-top-color: #a855f7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Panel */
+.panel {
+  max-width: 460px;
+  margin: 1rem auto 2rem;
+  padding: 0 1rem;
+}
+
+.seleccion-card {
+  background: rgba(168,85,247,0.08);
+  border: 1px solid rgba(168,85,247,0.25);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+.seleccion-card.visible { display: block; }
+.seleccion-card h3 { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; }
+
+.nums-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0.8rem; }
+
+.num-tag {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.precio-total { font-size: 1.6rem; font-weight: 800; color: #fff; }
+.precio-total span { background: linear-gradient(90deg, #f472b6, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.form-group { margin-bottom: 0.9rem; }
+.form-group label { display: block; font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+.form-group input {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1.5px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus { border-color: #a855f7; }
+.form-group input::placeholder { color: #444; }
+
+.btn-pagar {
+  width: 100%;
+  padding: 15px;
+  background: #009ee3;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-pagar:hover:not(:disabled) { background: #0088cc; transform: translateY(-1px); }
+.btn-pagar:disabled { background: #333; cursor: not-allowed; color: #666; }
+
+.mp-logo {
+  font-size: 1rem;
+  font-weight: 900;
+  background: #fff;
+  color: #009ee3;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.btn-limpiar {
+  width: 100%;
+  padding: 11px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s;
+}
+
+.btn-limpiar:hover { border-color: #555; color: #aaa; }
+
+/* Aviso grilla */
+.aviso-grilla {
+  background: rgba(168,85,247,0.07);
+  border: 1px solid rgba(168,85,247,0.2);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.aviso-grilla p {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: #ccc;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px; left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  color: #fff;
+  transition: transform 0.3s ease;
+  z-index: 999;
+  max-width: 88vw;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { border-color: #cc0000; }
+.toast.success { border-color: #00a650; }
+.toast.warning { border-color: #f59e0b; }
+
+/* Modal */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#modal-overlay.visible { display: flex; }
+
+.modal {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-emoji { font-size: 3.5rem; margin-bottom: 0.8rem; }
+.modal h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.modal p { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem; }
+
+.btn-modal {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+.btn-modal:hover { opacity: 0.9; }
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #333;
+  font-size: 0.75rem;
+  border-top: 1px solid #1a1a1a;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-circle"><div class="logo-dot"></div></div>
+    <div class="logo-lines">
+      <div class="logo-line"></div>
+      <div class="logo-line"></div>
+      <div class="logo-line"></div>
+    </div>
+    <div class="logo-i">
+      <div class="logo-i-inner">
+        <div class="logo-i-bar"></div>
+        <div class="logo-i-stem"></div>
+        <div class="logo-i-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <h1>Rifa Multifandom</h1>
+  <p class="subtitulo">Rifas Kpop AR</p>
+
+  <div class="grupos-badges">
+    <span class="grupo-badge badge-bts">BTS & Solos</span>
+    <span class="grupo-badge badge-skz">Stray Kids</span>
+    <span class="grupo-badge badge-bp">BLACKPINK</span>
+    <span class="grupo-badge badge-shinee">SHINee</span>
+  </div>
+
+  <div class="precios-info">
+    <span class="precio-badge">1 número → $2.700</span>
+    <span class="precio-badge">2 números → $3.600</span>
+    <span class="precio-badge">3+ → se agrupan de a pares</span>
+  </div>
+</header>
+
+<!-- Premios -->
+<div class="premios-section">
+  <p class="premios-titulo">🏆 El ganador elige su premio</p>
+  <div class="premios-grid">
+    <div class="premio-card card-bts">
+      <div class="premio-emoji">💜</div>
+      <div class="premio-artista">Jimin · BTS</div>
+      <div class="premio-album">MUSE</div>
+      <div class="premio-versiones">Serenade ver.</div>
+    </div>
+    <div class="premio-card card-bts">
+      <div class="premio-emoji">⭐</div>
+      <div class="premio-artista">Jungkook · BTS</div>
+      <div class="premio-album">GOLDEN</div>
+      <div class="premio-versiones">3 versiones</div>
+    </div>
+    <div class="premio-card card-bts">
+      <div class="premio-emoji">🌙</div>
+      <div class="premio-artista">V · BTS</div>
+      <div class="premio-album">LAYOVER</div>
+      <div class="premio-versiones">3 versiones</div>
+    </div>
+    <div class="premio-card card-bts">
+      <div class="premio-emoji">🎵</div>
+      <div class="premio-artista">BTS</div>
+      <div class="premio-album">ARIRANG</div>
+      <div class="premio-versiones">Rooted in Music</div>
+    </div>
+    <div class="premio-card card-bts">
+      <div class="premio-emoji">🖤</div>
+      <div class="premio-artista">Suga · BTS</div>
+      <div class="premio-album">D-DAY</div>
+      <div class="premio-versiones">2 versiones</div>
+    </div>
+    <div class="premio-card card-skz">
+      <div class="premio-emoji">⚡</div>
+      <div class="premio-artista">Stray Kids</div>
+      <div class="premio-album">ATE</div>
+      <div class="premio-versiones">2 versiones</div>
+    </div>
+    <div class="premio-card card-bp">
+      <div class="premio-emoji">🌸</div>
+      <div class="premio-artista">Jisoo · BLACKPINK</div>
+      <div class="premio-album">AMORTAGE</div>
+      <div class="premio-versiones">2 versiones</div>
+    </div>
+    <div class="premio-card card-shinee">
+      <div class="premio-emoji">💎</div>
+      <div class="premio-artista">Taemin · SHINee</div>
+      <div class="premio-album">GUILTY</div>
+      <div class="premio-versiones">Rizz ver.</div>
+    </div>
+  </div>
+  <p class="premio-nota">✨ El ganador elige álbum y versión según el stock disponible</p>
+</div>
+
+<div class="leyenda">
+  <div class="leyenda-item"><span class="corazon-leyenda" style="color:#2a2a2a;">🩶</span> Libre</div>
+  <div class="leyenda-item"><span class="corazon-leyenda">❤️</span> Seleccionado</div>
+  <div class="leyenda-item"><span class="corazon-leyenda">🧡</span> Reservado</div>
+  <div class="leyenda-item"><span class="corazon-leyenda">🩷</span> Vendido</div>
+</div>
+
+<div class="grilla-wrapper">
+  <div class="aviso-grilla">
+    <p>
+      💜 Voy a estar actualizando la grilla por las historias y el día del sorteo lo publicaré en el feed.<br>
+      También te enviaré un mensaje ese día.<br>
+      <strong style="color:#c084fc;">¡Mucha suerte!</strong> Seguinos en Instagram 👉
+      <a href="https://instagram.com/rifaskpop.ar" target="_blank" style="color:#c084fc;font-weight:700;text-decoration:none;">@rifaskpop.ar</a>
+    </p>
+  </div>
+
+  <div class="grilla-titulo">
+    <h2>Rifa Multifandom 2025</h2>
+    <p>Seleccioná tu número de la suerte</p>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    Cargando números...
+  </div>
+
+  <div class="grilla" id="grilla" style="display:none"></div>
+</div>
+
+<div class="panel">
+  <div class="seleccion-card" id="seleccion-card">
+    <h3>Tu selección</h3>
+    <div class="nums-tags" id="nums-tags"></div>
+    <div class="precio-total">Total: <span id="precio-display">$0</span></div>
+  </div>
+
+  <div class="form-group">
+    <label>Tu nombre completo</label>
+    <input type="text" id="input-nombre" placeholder="Ej: Valentina García" maxlength="60">
+  </div>
+
+  <div class="form-group">
+    <label>Tu Instagram</label>
+    <input type="text" id="input-instagram" placeholder="@tu_usuario" maxlength="60">
+  </div>
+
+  <button class="btn-pagar" id="btn-pagar" disabled onclick="iniciarPago()">
+    <span class="mp-logo">MP</span> Pagar con Mercado Pago
+  </button>
+  <button class="btn-limpiar" onclick="limpiarSeleccion()">Limpiar selección</button>
+</div>
+
+<div id="modal-overlay">
+  <div class="modal">
+    <div class="modal-emoji" id="modal-emoji">🎉</div>
+    <h2 id="modal-titulo">¡Pago confirmado!</h2>
+    <p id="modal-texto">Tus números quedaron reservados. ¡Mucha suerte! 💜</p>
+    <button class="btn-modal" onclick="cerrarModal()">Volver a la rifa</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  Rifas Kpop AR &bull; Pagos procesados por Mercado Pago &bull; Argentina<br>
+  <a href="https://instagram.com/rifaskpop.ar" target="_blank" style="color:#c084fc;font-weight:700;text-decoration:none;">@rifaskpop.ar</a>
+</footer>
+
+<script>
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycbyXidOq_LpuU-cAv42QNYvJiBgj9ytI6L8kTWIo_nDstf5vHz20XoNZJIJH8YH8CdtgVw/exec";
+const MP_PUBLIC_KEY = "APP_USR-b61c06a9-a71a-42f4-b41e-fe00134e0545";
+
+let numerosSeleccionados = [];
+let estadoNumeros = [];
+
+// Colores multifandom para los corazones vendidos
+const COLORES_MULTIFANDOM = [
+  '#ff69b4','#a855f7','#3b82f6','#f59e0b',
+  '#ec4899','#8b5cf6','#06b6d4','#10b981'
+];
+
+function calcularPrecio(cantidad) {
+  const pares = Math.floor(cantidad / 2);
+  const resto = cantidad % 2;
+  return pares * 3600 + resto * 2700;
+}
+
+function formatPrecio(n) {
+  return '$' + n.toLocaleString('es-AR');
+}
+
+function mostrarToast(msg, tipo) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (tipo || '');
+  setTimeout(() => { t.className = 'toast'; }, 3800);
+}
+
+function actualizarPanel() {
+  const card = document.getElementById('seleccion-card');
+  const tags = document.getElementById('nums-tags');
+  const precio = document.getElementById('precio-display');
+  const btn = document.getElementById('btn-pagar');
+  const nombre = document.getElementById('input-nombre').value.trim();
+  const ig = document.getElementById('input-instagram').value.trim();
+
+  if (numerosSeleccionados.length === 0) {
+    card.classList.remove('visible');
+    btn.disabled = true;
+    return;
+  }
+
+  card.classList.add('visible');
+  const sorted = [...numerosSeleccionados].sort((a, b) => a - b);
+  tags.innerHTML = sorted.map(n => `<span class="num-tag">${n}</span>`).join('');
+  precio.textContent = formatPrecio(calcularPrecio(numerosSeleccionados.length));
+  btn.disabled = !(nombre && ig);
+}
+
+document.getElementById('input-nombre').addEventListener('input', actualizarPanel);
+document.getElementById('input-instagram').addEventListener('input', actualizarPanel);
+
+function toggleNumero(n) {
+  const e = estadoNumeros[n - 1];
+  if (!e || e.estado !== 'libre') return;
+  const idx = numerosSeleccionados.indexOf(n);
+  if (idx === -1) numerosSeleccionados.push(n);
+  else numerosSeleccionados.splice(idx, 1);
+  renderGrilla();
+  actualizarPanel();
+}
+
+function limpiarSeleccion() {
+  numerosSeleccionados = [];
+  renderGrilla();
+  actualizarPanel();
+}
+
+function corazonSVG(color, stroke) {
+  return `<svg class="corazon-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 85 C50 85 5 55 5 28 C5 14 16 5 28 5 C37 5 45 10 50 18 C55 10 63 5 72 5 C84 5 95 14 95 28 C95 55 50 85 50 85Z"
+      fill="${color}" stroke="${stroke}" stroke-width="3"/>
+  </svg>`;
+}
+
+function renderGrilla() {
+  const grilla = document.getElementById('grilla');
+  grilla.innerHTML = '';
+
+  for (let i = 1; i <= 100; i++) {
+    const e = estadoNumeros[i - 1];
+    const btn = document.createElement('button');
+    btn.className = 'num-btn';
+
+    const seleccionado = numerosSeleccionados.includes(i);
+    let color, stroke, labelClass;
+
+    if (!e || e.estado === 'libre') {
+      if (seleccionado) {
+        color = '#a855f7'; stroke = '#c084fc'; labelClass = '';
+      } else {
+        color = '#1e1e1e'; stroke = '#333'; labelClass = '';
+      }
+    } else if (e.estado === 'reservado') {
+      color = '#f59e0b'; stroke = '#d97706'; labelClass = 'oscuro';
+      btn.disabled = true;
+    } else if (e.estado === 'vendido') {
+      // Corazones multifandom con colores variados por número
+      const colorIdx = (i - 1) % COLORES_MULTIFANDOM.length;
+      color = COLORES_MULTIFANDOM[colorIdx];
+      stroke = color;
+      labelClass = '';
+      btn.disabled = true;
+    } else {
+      color = '#1e1e1e'; stroke = '#333'; labelClass = '';
+    }
+
+    btn.innerHTML = corazonSVG(color, stroke) +
+      `<span class="num-label ${labelClass}">${i}</span>`;
+
+    if (!btn.disabled) btn.onclick = () => toggleNumero(i);
+    grilla.appendChild(btn);
+  }
+}
+
+async function cargarNumeros() {
+  try {
+    const res = await fetch(BACKEND_URL + '?action=getNumbers', { redirect: 'follow' });
+    const data = await res.json();
+    estadoNumeros = data;
+    document.getElementById('loader').style.display = 'none';
+    const g = document.getElementById('grilla');
+    g.style.display = 'grid';
+    renderGrilla();
+  } catch (err) {
+    document.getElementById('loader').innerHTML =
+      '<p style="color:#a855f7">Error al cargar. Recargá la página.</p>';
+    console.error(err);
+  }
+}
+
+async function iniciarPago() {
+  const nombre = document.getElementById('input-nombre').value.trim();
+  const instagram = document.getElementById('input-instagram').value.trim();
+
+  if (!nombre || !instagram) { mostrarToast('Completá tu nombre e Instagram.', 'error'); return; }
+  if (numerosSeleccionados.length === 0) { mostrarToast('Seleccioná al menos un número.', 'error'); return; }
+
+  const btn = document.getElementById('btn-pagar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="mp-logo">MP</span> Procesando...';
+
+  try {
+    const resReserva = await fetch(BACKEND_URL, {
+      method: 'POST', redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'reserve', numeros: numerosSeleccionados, nombre, instagram })
+    });
+    const dataReserva = await resReserva.json();
+
+    if (!dataReserva.ok) {
+      mostrarToast(dataReserva.error || 'Ese número ya fue tomado. Elegí otro.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="mp-logo">MP</span> Pagar con Mercado Pago';
+      await cargarNumeros();
+      return;
+    }
+
+    const resPref = await fetch(BACKEND_URL, {
+      method: 'POST', redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        action: 'createPreference',
+        numeros: numerosSeleccionados,
+        nombre, instagram,
+        urlBase: window.location.href.split('?')[0]
+      })
+    });
+    const dataPref = await resPref.json();
+
+    if (dataPref.ok && dataPref.init_point) {
+      window.location.href = dataPref.init_point;
+    } else {
+      throw new Error(dataPref.error || 'Error al crear el pago');
+    }
+
+  } catch (err) {
+    mostrarToast('Error al conectar. Intentá de nuevo.', 'error');
+    console.error(err);
+    btn.disabled = false;
+    btn.innerHTML = '<span class="mp-logo">MP</span> Pagar con Mercado Pago';
+  }
+}
+
+function cerrarModal() {
+  document.getElementById('modal-overlay').classList.remove('visible');
+}
+
+async function manejarRetornoMP() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('status');
+  const nums = params.get('nums');
+  const paymentId = params.get('payment_id') || params.get('collection_id') || 'manual';
+
+  if (!status) return;
+  history.replaceState({}, '', window.location.pathname);
+
+  if (status === 'approved') {
+    const numerosArr = nums ? nums.split(',').map(Number) : [];
+    if (numerosArr.length > 0) {
+      try {
+        await fetch(BACKEND_URL, {
+          method: 'POST', redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'confirm', payment_id: paymentId, numeros: numerosArr })
+        });
+      } catch (e) { console.error(e); }
+    }
+    document.getElementById('modal-emoji').textContent = '🎉';
+    document.getElementById('modal-titulo').textContent = '¡Pago confirmado!';
+    document.getElementById('modal-texto').textContent =
+      `Tus números ${nums} quedaron reservados. ¡Mucha suerte! Te avisamos el día del sorteo 💜`;
+    document.getElementById('modal-overlay').classList.add('visible');
+
+  } else if (status === 'failure') {
+    mostrarToast('El pago no se completó. Los números fueron liberados.', 'error');
+  } else if (status === 'pending') {
+    mostrarToast('Pago pendiente. Avisanos por Instagram cuando se acredite 💜', 'warning');
+  }
+}
+
+manejarRetornoMP();
+cargarNumeros();
+setInterval(cargarNumeros, 45000);
+</script>
+</body>
+</html>
