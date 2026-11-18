@@ -780,7 +780,8 @@ async function cargarNumeros() {
   try {
     const res = await fetch(BACKEND_URL + '?action=getNumbers', { redirect: 'follow' });
     const data = await res.json();
-    estadoNumeros = data;
+    // Normaliza estados: en la Sheet a veces quedan con espacios o mayúsculas ("libre ").
+    estadoNumeros = data.map(x => ({ ...x, estado: String(x.estado || 'libre').trim().toLowerCase() }));
     document.getElementById('loader').style.display = 'none';
     const g = document.getElementById('grilla');
     g.style.display = 'grid';
